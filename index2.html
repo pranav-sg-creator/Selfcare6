@@ -1,0 +1,870 @@
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HealthGuide - Health Information</title>
+
+    <style>
+        /* BASIC SETTINGS */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f8fb;
+            color: #222;
+        }
+
+        /* HEADER */
+        header {
+            background: linear-gradient(135deg, #087f8c, #075985);
+            color: white;
+            text-align: center;
+            padding: 35px 15px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 38px;
+        }
+
+        header p {
+            margin: 10px 0;
+            font-size: 17px;
+        }
+
+        /* NAVBAR */
+        nav {
+            background: white;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 8px #ccc;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #075985;
+            font-weight: bold;
+            margin: 0 15px;
+        }
+
+        nav button {
+            border: none;
+            background: #075985;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        /* SEARCH AREA */
+        .search-area {
+            text-align: center;
+            padding: 40px 15px;
+        }
+
+        .search-area h2 {
+            color: #075985;
+        }
+
+        .search-box {
+            width: 80%;
+            max-width: 650px;
+            padding: 15px;
+            border: 2px solid #0f766e;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        .search-button {
+            margin-top: 12px;
+            padding: 13px 25px;
+            background: #0f766e;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .search-button:hover {
+            background: #075985;
+        }
+
+        /* SUGGESTIONS */
+        .suggestions {
+            margin-top: 15px;
+        }
+
+        .suggestions button {
+            margin: 5px;
+            padding: 8px 12px;
+            border: 1px solid #0f766e;
+            background: white;
+            color: #075985;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        /* RESULT */
+        #result {
+            width: 90%;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .disease-title {
+            background: linear-gradient(135deg, #075985, #0f766e);
+            color: white;
+            padding: 25px;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .disease-title h2 {
+            margin: 0;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 0 0 15px 15px;
+        }
+
+        .card {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 5px solid #0f766e;
+        }
+
+        .card h3 {
+            color: #075985;
+            margin-top: 0;
+        }
+
+        .card ul {
+            padding-left: 20px;
+            line-height: 1.7;
+        }
+
+        /* WARNING */
+        .warning {
+            background: #fff7ed;
+            border: 2px solid #f97316;
+            padding: 20px;
+            margin-top: 25px;
+            border-radius: 12px;
+        }
+
+        .warning h3 {
+            color: #c2410c;
+            margin-top: 0;
+        }
+
+        /* DOCTOR MESSAGE */
+        .doctor-box {
+            background: #ecfdf5;
+            border: 2px solid #10b981;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .doctor-box strong {
+            color: #047857;
+        }
+
+        /* HOME SECTION */
+        .home-section {
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .home-section h2 {
+            color: #075985;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .feature {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px #ddd;
+        }
+
+        .feature span {
+            font-size: 35px;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #082f49;
+            color: white;
+            text-align: center;
+            padding: 25px;
+            margin-top: 40px;
+        }
+
+        /* DARK MODE */
+        .dark {
+            background: #111827;
+            color: #eee;
+        }
+
+        .dark nav {
+            background: #1f2937;
+        }
+
+        .dark nav a {
+            color: #7dd3fc;
+        }
+
+        .dark .feature,
+        .dark .cards {
+            background: #1f2937;
+        }
+
+        .dark .card {
+            background: #374151;
+        }
+
+        .dark .card h3 {
+            color: #7dd3fc;
+        }
+
+        .dark .search-area h2,
+        .dark .home-section h2 {
+            color: #7dd3fc;
+        }
+
+        /* MOBILE */
+        @media(max-width: 700px) {
+
+            header h1 {
+                font-size: 30px;
+            }
+
+            nav a {
+                display: inline-block;
+                margin: 5px;
+            }
+
+            .cards,
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .search-box {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <h1>🩺 HealthGuide</h1>
+        <p>Simple and reliable health information for everyone</p>
+        <p><b>Understand • Prevent • Stay Safe</b></p>
+    </header>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#search">Search</a>
+        <a href="#about">About</a>
+        <button onclick="changeMode()">🌙 Mode</button>
+    </nav>
+
+    <!-- HOME -->
+    <section class="home-section" id="home">
+
+        <h2>Welcome to HealthGuide</h2>
+
+        <p>
+            Search for a common illness and learn about its
+            symptoms, types, precautions and safe self-care.
+        </p>
+
+        <div class="features">
+
+            <div class="feature">
+                <span>🔎</span>
+                <h3>Search</h3>
+                <p>Find information about common health conditions.</p>
+            </div>
+
+            <div class="feature">
+                <span>🛡️</span>
+                <h3>Prevention</h3>
+                <p>Learn simple precautions and healthy habits.</p>
+            </div>
+
+            <div class="feature">
+                <span>👨‍⚕️</span>
+                <h3>Doctor First</h3>
+                <p>Know when professional medical advice is important.</p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- SEARCH -->
+    <section class="search-area" id="search">
+
+        <h2>🔎 Search Your Health Topic</h2>
+
+        <p>Example: Cold, Fever, Migraine, Acidity</p>
+
+        <input
+            type="text"
+            id="searchInput"
+            class="search-box"
+            placeholder="Type illness or health condition..."
+        >
+
+        <br>
+
+        <button class="search-button" onclick="searchDisease()">
+            Search
+        </button>
+
+        <div class="suggestions">
+
+            <button onclick="quickSearch('cold')">Cold</button>
+
+            <button onclick="quickSearch('fever')">Fever</button>
+
+            <button onclick="quickSearch('flu')">Flu</button>
+
+            <button onclick="quickSearch('headache')">Headache</button>
+
+            <button onclick="quickSearch('migraine')">Migraine</button>
+
+            <button onclick="quickSearch('acidity')">Acidity</button>
+
+            <button onclick="quickSearch('diarrhea')">Diarrhea</button>
+
+        </div>
+
+    </section>
+
+    <!-- RESULT -->
+    <section id="result"></section>
+
+
+    <!-- ABOUT -->
+    <section class="home-section" id="about">
+
+        <h2>About HealthGuide</h2>
+
+        <p>
+            HealthGuide is an educational health-information website.
+            It is designed to help users understand common illnesses,
+            prevention and safe self-care.
+        </p>
+
+        <p>
+            It is NOT a doctor, hospital or diagnostic system.
+        </p>
+
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer>
+
+        <h3>🩺 HealthGuide</h3>
+
+        <p>
+            Learn about your health. Stay informed. Stay safe.
+        </p>
+
+        <p>
+            ⚠️ Always consult a qualified healthcare professional
+            for diagnosis and treatment.
+        </p>
+
+        <p>© 2026 HealthGuide</p>
+
+    </footer>
+
+
+    <script>
+
+        /* =========================
+           HEALTH INFORMATION
+        ========================= */
+
+        var diseases = {
+
+            cold: {
+                name: "Common Cold",
+                types: [
+                    "Viral cold",
+                    "Seasonal cold",
+                    "Allergic symptoms can sometimes feel similar"
+                ],
+                symptoms: [
+                    "Runny or blocked nose",
+                    "Sneezing",
+                    "Sore throat",
+                    "Mild cough",
+                    "Mild tiredness"
+                ],
+                precautions: [
+                    "Wash hands regularly",
+                    "Avoid close contact when sick",
+                    "Cover coughs and sneezes",
+                    "Get enough rest",
+                    "Drink enough fluids"
+                ],
+                home: [
+                    "Rest properly",
+                    "Drink warm fluids",
+                    "Keep yourself hydrated",
+                    "Use a comfortable humid environment"
+                ],
+                medicine:
+                    "Medicines may sometimes be used to relieve symptoms. Ask a doctor or pharmacist which option is appropriate for you. Do not start antibiotics on your own.",
+                emergency: [
+                    "Difficulty breathing",
+                    "Severe or worsening symptoms",
+                    "Symptoms that do not improve as expected"
+                ]
+            },
+
+
+            fever: {
+                name: "Fever",
+                types: [
+                    "Fever caused by infections",
+                    "Fever associated with inflammation",
+                    "Fever can occur with many different conditions"
+                ],
+                symptoms: [
+                    "Higher than normal body temperature",
+                    "Chills",
+                    "Sweating",
+                    "Weakness",
+                    "Body discomfort"
+                ],
+                precautions: [
+                    "Drink enough fluids",
+                    "Rest",
+                    "Monitor temperature",
+                    "Maintain good hygiene",
+                    "Seek medical advice if fever is persistent or concerning"
+                ],
+                home: [
+                    "Take adequate rest",
+                    "Drink water and other suitable fluids",
+                    "Wear comfortable clothing",
+                    "Monitor your condition"
+                ],
+                medicine:
+                    "Some medicines can reduce fever, but the correct medicine depends on age, medical history and other medicines. Consult a healthcare professional before using medicine.",
+                emergency: [
+                    "Severe difficulty breathing",
+                    "Confusion or unusual sleepiness",
+                    "Seizure",
+                    "Severe dehydration",
+                    "Very severe or rapidly worsening condition"
+                ]
+            },
+
+
+            flu: {
+                name: "Influenza (Flu)",
+                types: [
+                    "Seasonal influenza",
+                    "Influenza A",
+                    "Influenza B"
+                ],
+                symptoms: [
+                    "Fever",
+                    "Cough",
+                    "Sore throat",
+                    "Body aches",
+                    "Headache",
+                    "Tiredness"
+                ],
+                precautions: [
+                    "Wash hands regularly",
+                    "Avoid close contact when sick",
+                    "Cover coughs and sneezes",
+                    "Stay home when unwell",
+                    "Maintain good ventilation"
+                ],
+                home: [
+                    "Get plenty of rest",
+                    "Drink sufficient fluids",
+                    "Eat nutritious food if tolerated",
+                    "Monitor worsening symptoms"
+                ],
+                medicine:
+                    "Some people may need medical treatment depending on their condition and risk factors. Do not use antibiotics for flu unless a healthcare professional identifies a bacterial infection.",
+                emergency: [
+                    "Difficulty breathing",
+                    "Chest pain",
+                    "Confusion",
+                    "Severe weakness",
+                    "Rapid worsening"
+                ]
+            },
+
+
+            headache: {
+                name: "Headache",
+                types: [
+                    "Tension headache",
+                    "Migraine",
+                    "Cluster headache",
+                    "Headache caused by another condition"
+                ],
+                symptoms: [
+                    "Pain in the head",
+                    "Pressure or tightness",
+                    "Sensitivity to light or sound in some headaches",
+                    "Nausea in some cases"
+                ],
+                precautions: [
+                    "Maintain regular sleep",
+                    "Drink enough water",
+                    "Take breaks from screens",
+                    "Avoid known personal triggers",
+                    "Manage stress"
+                ],
+                home: [
+                    "Rest in a quiet place",
+                    "Drink water",
+                    "Take a break from screens",
+                    "Try relaxation techniques"
+                ],
+                medicine:
+                    "Pain-relief medicines may be appropriate for some people, but frequent or inappropriate use can cause problems. Ask a healthcare professional or pharmacist before using medicine.",
+                emergency: [
+                    "Sudden extremely severe headache",
+                    "Headache after serious injury",
+                    "Weakness or difficulty speaking",
+                    "Confusion",
+                    "Loss of consciousness"
+                ]
+            },
+
+
+            migraine: {
+                name: "Migraine",
+                types: [
+                    "Migraine with aura",
+                    "Migraine without aura",
+                    "Chronic migraine"
+                ],
+                symptoms: [
+                    "Moderate or severe headache",
+                    "Nausea",
+                    "Sensitivity to light",
+                    "Sensitivity to sound",
+                    "Visual changes in some people"
+                ],
+                precautions: [
+                    "Maintain regular sleep",
+                    "Stay hydrated",
+                    "Avoid known triggers",
+                    "Do not skip meals",
+                    "Manage stress"
+                ],
+                home: [
+                    "Rest in a quiet and dark room",
+                    "Drink water",
+                    "Try relaxation",
+                    "Avoid known personal triggers"
+                ],
+                medicine:
+                    "Migraine treatment varies from person to person. A healthcare professional can recommend suitable medicines based on the person's symptoms and medical history.",
+                emergency: [
+                    "Sudden extremely severe headache",
+                    "New neurological symptoms",
+                    "Confusion",
+                    "Loss of consciousness",
+                    "Headache after serious injury"
+                ]
+            },
+
+
+            acidity: {
+                name: "Acidity / Heartburn",
+                types: [
+                    "Occasional heartburn",
+                    "Acid reflux",
+                    "Gastroesophageal reflux disease (GERD)"
+                ],
+                symptoms: [
+                    "Burning feeling in the chest",
+                    "Acid taste in the mouth",
+                    "Bloating",
+                    "Discomfort after meals"
+                ],
+                precautions: [
+                    "Avoid overeating",
+                    "Identify foods that trigger symptoms",
+                    "Avoid lying down immediately after eating",
+                    "Maintain a healthy routine",
+                    "Seek medical advice if symptoms are frequent"
+                ],
+                home: [
+                    "Eat smaller meals",
+                    "Avoid personal trigger foods",
+                    "Stay upright after meals",
+                    "Maintain a regular eating routine"
+                ],
+                medicine:
+                    "Antacids and other medicines may help some people, but frequent symptoms should be discussed with a healthcare professional.",
+                emergency: [
+                    "Severe chest pain",
+                    "Difficulty breathing",
+                    "Vomiting blood",
+                    "Black or bloody stools",
+                    "Severe or worsening symptoms"
+                ]
+            },
+
+
+            diarrhea: {
+                name: "Diarrhea",
+                types: [
+                    "Acute diarrhea",
+                    "Persistent diarrhea",
+                    "Diarrhea caused by infection or food-related problems"
+                ],
+                symptoms: [
+                    "Loose or watery stools",
+                    "Stomach cramps",
+                    "Urgent need to use the toilet",
+                    "Weakness",
+                    "Possible dehydration"
+                ],
+                precautions: [
+                    "Wash hands carefully",
+                    "Drink safe water",
+                    "Handle food hygienically",
+                    "Avoid unsafe food and water"
+                ],
+                home: [
+                    "Drink suitable fluids",
+                    "Use oral rehydration solution when appropriate",
+                    "Eat light foods as tolerated",
+                    "Monitor for dehydration"
+                ],
+                medicine:
+                    "Treatment depends on the cause. Oral rehydration can be important, while some medicines are not suitable for everyone. Ask a healthcare professional for advice.",
+                emergency: [
+                    "Severe dehydration",
+                    "Blood in stool",
+                    "Persistent vomiting",
+                    "Severe abdominal pain",
+                    "Severe weakness"
+                ]
+            }
+
+        };
+
+
+        /* =========================
+           SEARCH FUNCTION
+        ========================= */
+
+        function searchDisease() {
+
+            var searchText =
+                document.getElementById("searchInput").value
+                .toLowerCase()
+                .trim();
+
+            if (searchText == "") {
+
+                alert("Please enter a health condition.");
+
+                return;
+            }
+
+            if (diseases[searchText]) {
+
+                showDisease(diseases[searchText]);
+
+            } else {
+
+                document.getElementById("result").innerHTML =
+
+                    "<div class='warning'>" +
+                    "<h3>⚠️ Information Not Found</h3>" +
+                    "<p>We don't currently have information for <b>" +
+                    searchText +
+                    "</b>.</p>" +
+                    "<p>Try searching for Cold, Fever, Flu, Headache, Migraine, Acidity or Diarrhea.</p>" +
+                    "</div>";
+            }
+        }
+
+
+        /* =========================
+           QUICK SEARCH
+        ========================= */
+
+        function quickSearch(name) {
+
+            document.getElementById("searchInput").value = name;
+
+            searchDisease();
+
+            document.getElementById("result")
+                .scrollIntoView({ behavior: "smooth" });
+        }
+
+
+        /* =========================
+           DISPLAY DISEASE
+        ========================= */
+
+        function showDisease(disease) {
+
+            var types = "";
+
+            for (var i = 0; i < disease.types.length; i++) {
+
+                types += "<li>" +
+                    disease.types[i] +
+                    "</li>";
+            }
+
+
+            var symptoms = "";
+
+            for (var i = 0; i < disease.symptoms.length; i++) {
+
+                symptoms += "<li>" +
+                    disease.symptoms[i] +
+                    "</li>";
+            }
+
+
+            var precautions = "";
+
+            for (var i = 0; i < disease.precautions.length; i++) {
+
+                precautions += "<li>" +
+                    disease.precautions[i] +
+                    "</li>";
+            }
+
+
+            var home = "";
+
+            for (var i = 0; i < disease.home.length; i++) {
+
+                home += "<li>" +
+                    disease.home[i] +
+                    "</li>";
+            }
+
+
+            var emergency = "";
+
+            for (var i = 0; i < disease.emergency.length; i++) {
+
+                emergency += "<li>" +
+                    disease.emergency[i] +
+                    "</li>";
+            }
+
+
+            document.getElementById("result").innerHTML =
+
+                "<div class='disease-title'>" +
+                "<h2>🩺 " + disease.name + "</h2>" +
+                "<p>Health information and safety guidance</p>" +
+                "</div>" +
+
+                "<div class='cards'>" +
+
+                "<div class='card'>" +
+                "<h3>🦠 Common Types</h3>" +
+                "<ul>" + types + "</ul>" +
+                "</div>" +
+
+                "<div class='card'>" +
+                "<h3>🤒 Common Symptoms</h3>" +
+                "<ul>" + symptoms + "</ul>" +
+                "</div>" +
+
+                "<div class='card'>" +
+                "<h3>🛡️ Precautions</h3>" +
+                "<ul>" + precautions + "</ul>" +
+                "</div>" +
+
+                "<div class='card'>" +
+                "<h3>🏠 Safe Self-Care</h3>" +
+                "<ul>" + home + "</ul>" +
+                "</div>" +
+
+                "<div class='card'>" +
+                "<h3>💊 Medicine Information</h3>" +
+                "<p>" + disease.medicine + "</p>" +
+                "</div>" +
+
+                "<div class='card'>" +
+                "<h3>🚨 Warning Signs</h3>" +
+                "<ul>" + emergency + "</ul>" +
+                "</div>" +
+
+                "</div>" +
+
+                "<div class='doctor-box'>" +
+                "<h3>👨‍⚕️ Important</h3>" +
+                "<p><strong>This website does not diagnose or prescribe.</strong></p>" +
+                "<p>For diagnosis, treatment or medicines, consult a qualified doctor or healthcare professional.</p>" +
+                "</div>" +
+
+                "<div class='warning'>" +
+                "<h3>⚠️ Safety First</h3>" +
+                "<p>Do not rely only on information from this website if you are seriously unwell.</p>" +
+                "<p>Do not start, stop or change prescription medicines without professional medical advice.</p>" +
+                "<p>If symptoms are severe, sudden or rapidly worsening, seek urgent medical care.</p>" +
+                "</div>";
+        }
+
+
+        /* =========================
+           DARK MODE
+        ========================= */
+
+        function changeMode() {
+
+            document.body.classList.toggle("dark");
+
+        }
+
+    </script>
+
+</body>
+</html>
+```
